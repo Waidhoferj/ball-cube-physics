@@ -1,6 +1,7 @@
 use bevy::animation::{AnimationTarget, AnimationTargetId, animated_field};
 use bevy::math::bounding::Aabb3d;
 use bevy::prelude::*;
+use bevy::window::PresentMode;
 use bevy::{
     core_pipeline::tonemapping::Tonemapping, ecs::resource::Resource, post_process::bloom::Bloom,
     reflect::Reflect,
@@ -171,7 +172,16 @@ struct ContainerBox;
 fn main() {
     let mut app = App::new();
     app.add_plugins((
-        DefaultPlugins,
+        DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                // This tells Wasm to resize the window according to the available canvas
+                fit_canvas_to_parent: true,
+                // You might also want to set PresentMode for smoother rendering
+                present_mode: PresentMode::AutoVsync,
+                ..default()
+            }),
+            ..default()
+        }),
         EguiPlugin::default(),
         DefaultInspectorConfigPlugin,
     ))
