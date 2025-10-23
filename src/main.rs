@@ -285,8 +285,9 @@ fn adjust_ball_size(mut query: Query<&mut Transform, With<Ball>>, config: Res<Co
     if !config.is_changed() {
         return;
     }
+    let min_box_dim = config.boundaries.min_element();
     for mut transform in query.iter_mut() {
-        transform.scale = Vec3::splat(config.radius);
+        transform.scale = Vec3::splat(config.radius.clamp(0.0001, min_box_dim * 0.5));
     }
 }
 
@@ -298,7 +299,7 @@ fn adjust_boundary_size(
         return;
     }
     for mut transform in query.iter_mut() {
-        transform.scale = config.boundaries;
+        transform.scale = config.boundaries.max(Vec3::splat(config.radius * 2.0));
     }
 }
 
