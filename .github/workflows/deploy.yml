@@ -24,18 +24,16 @@ jobs:
         run: cargo install wasm-bindgen-cli
 
       - name: Build Bevy WASM
-        run: cargo build --target wasm32-unknown-unknown --release --features bevy_webgl2
+        run: cargo build --target wasm32-unknown-unknown --release
 
       - name: Generate WASM assets
-        run: wasm-bindgen --out-dir wasm --target web target/wasm32-unknown-unknown/release/ball_cube_physics.wasm
+        run: wasm-bindgen --no-typescript --target web --out-dir ./out/ --out-name "ball_cube_physics" ./target/wasm32-unknown-unknown/release/ball_cube_physics.wasm
 
       - name: Create index.html (if not already present)
-        run: |
-          mkdir -p wasm
-          cp public/index.html wasm/index.html # Adjust path to your index.html
+        run: cp web/index.html out/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./wasm # Directory containing your WASM assets and index.html
+          publish_dir: ./out # Directory containing your WASM assets and index.html
