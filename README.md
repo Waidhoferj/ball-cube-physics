@@ -1,6 +1,6 @@
-# NOC — Ball Cube Physics
+Ball Cube Physics
 
-A small interactive Bevy demo showing a ball bouncing inside a translucent cubic container.
+A small interactive Bevy demo showing a ball bouncing inside a translucent container.
 
 ## Build
 
